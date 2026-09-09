@@ -1,0 +1,22 @@
+node_modules
+.next
+out
+.env.local
+.env
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+# Original raw uploads (Canva exports, labels PDF) — already copied with
+# clean names into public/images/ for the app to use. Kept locally for
+# reference, not needed in the repo.
+/Caldo.png
+/Etiquetas - Taste of Home.pdf
+/Famlía maciel.png
+/Feijoada.png
+/Foto casal.png
+/Ideas - Taste of home.png
+/Klarissa e Robson.png
+/Marmitas.png
+/robson.png
+/sopas.png
