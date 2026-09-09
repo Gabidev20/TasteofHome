@@ -23,3 +23,19 @@ export function rethrowIfNextDynamicUsage(error: unknown): void {
     throw error;
   }
 }
+
+// Supabase's PostgrestError/AuthError are plain objects with a `message`
+// field, not real Error instances, so `error instanceof Error` misses them
+// and `String(error)` on a plain object just gives "[object Object]".
+export function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === "object" && "message" in error) {
+    const message = (error as { message?: unknown }).message;
+    if (typeof message === "string") return message;
+  }
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}

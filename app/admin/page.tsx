@@ -1,22 +1,42 @@
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 import { DeleteDishButton } from "@/components/admin/DeleteDishButton";
 import { SupabaseConfigWarning } from "@/components/admin/SupabaseConfigWarning";
-import { formatCAD, rethrowIfNextDynamicUsage } from "@/lib/utils";
+import { formatCAD, getErrorMessage, rethrowIfNextDynamicUsage } from "@/lib/utils";
 import type { Category, Dish } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
+  if (!getSupabaseEnv()) {
+    return (
+      <div>
+        <h1 className="font-display text-2xl font-bold text-brand-terracotta">
+          Cardápio
+        </h1>
+        <div className="mt-6">
+          <SupabaseConfigWarning missingEnv />
+        </div>
+      </div>
+    );
+  }
+
   let categories: Category[] = [];
   let dishes: Dish[] = [];
 
   try {
     const supabase = await createClient();
 
-    const [{ data: categoriesData }, { data: dishesData }] = await Promise.all([
-      supabase.from("categories").select("*").order("sort_order", { ascending: true }),
-      supabase.from("dishes").select("*").order("sort_order", { ascending: true }),
-    ]);
+    const [{ data: categoriesData, error: categoriesError }, { data: dishesData, error: dishesError }] =
+      await Promise.all([
+        supabase.from("categories").select("*").order("sort_order", { ascending: true }),
+        supabase.from("dishes").select("*").order("sort_order", { ascending: true }),
+      ]);
+
+    if (categoriesError) throw categoriesError;
+    if (dishesError) throw dishesError;
 
     categories = (categoriesData ?? []) as Category[];
     dishes = (dishesData ?? []) as Dish[];
@@ -29,7 +49,7 @@ export default async function AdminDashboard() {
           Cardápio
         </h1>
         <div className="mt-6">
-          <SupabaseConfigWarning />
+          <SupabaseConfigWarning missingEnv={false} detail={getErrorMessage(error)} />
         </div>
       </div>
     );
