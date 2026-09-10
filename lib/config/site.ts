@@ -6,8 +6,8 @@ export const siteConfig = {
   tagline: "Sabor de Casa",
   city: "Richmond, BC",
   country: "Canada",
-  instagramHandle: "taste_of_home",
-  instagramUrl: "https://www.instagram.com/taste_of_home",
+  instagramHandle: "taste_of_home_sabor_de_casa",
+  instagramUrl: "https://www.instagram.com/taste_of_home_sabor_de_casa/",
   // Real WhatsApp number found on the client's product labels.
   // Canada country code (+1) + BC area code already included.
   whatsappNumber: "17789182328",

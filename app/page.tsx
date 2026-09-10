@@ -2,11 +2,15 @@ import { createClient } from "@/lib/supabase/server";
 import { fallbackWeeklyDishes, fallbackWeekendDishes } from "@/lib/data/fallbackMenu";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { InfoStrip } from "@/components/InfoStrip";
 import { MenuSection } from "@/components/MenuSection";
 import { AboutSection } from "@/components/AboutSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { LocationSection } from "@/components/LocationSection";
+import { FinalCta } from "@/components/FinalCta";
 import { Footer } from "@/components/Footer";
+import { WhatsappFloatingButton } from "@/components/WhatsappFloatingButton";
 import type { Dish } from "@/lib/types";
 import { rethrowIfNextDynamicUsage } from "@/lib/utils";
 
@@ -64,12 +68,16 @@ export default async function HomePage() {
       <Header />
       <main>
         <Hero />
-        <MenuSection weeklyDishes={weeklyDishes} weekendDishes={weekendDishes} />
+        <InfoStrip />
         <AboutSection />
-        <Testimonials />
+        <MenuSection weeklyDishes={weeklyDishes} weekendDishes={weekendDishes} />
         <HowItWorks />
+        <Testimonials />
+        <LocationSection />
+        <FinalCta />
       </main>
       <Footer />
+      <WhatsappFloatingButton />
     </>
   );
 }

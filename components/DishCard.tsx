@@ -14,7 +14,7 @@ export function DishCard({ dish }: { dish: Dish }) {
   const soldOut = dish.status === "sold_out";
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-soft">
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-soft transition-transform hover:-translate-y-1">
       <div className="relative aspect-[4/3] w-full bg-brand-cream">
         {dish.image_url && (
           <Image
@@ -34,15 +34,10 @@ export function DishCard({ dish }: { dish: Dish }) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-display text-lg font-bold text-brand-terracotta">
-            {title}
-          </h3>
-          <span className="whitespace-nowrap font-semibold text-brand-olive">
-            {formatCAD(dish.price_cad)}
-          </span>
-        </div>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-lg font-bold text-brand-terracotta">
+          {title}
+        </h3>
 
         {description && (
           <p className="mt-1.5 flex-1 text-sm text-brand-terracotta/70">
@@ -50,20 +45,26 @@ export function DishCard({ dish }: { dish: Dish }) {
           </p>
         )}
 
-        <a
-          href={buildWhatsappOrderUrl(title)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-disabled={soldOut}
-          className={`mt-4 inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white transition-transform ${
-            soldOut
-              ? "pointer-events-none bg-gray-300"
-              : "bg-brand-orange hover:scale-[1.02]"
-          }`}
-        >
-          <MessageCircle className="h-4 w-4" />
-          {t.menu.orderButton}
-        </a>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <span className="whitespace-nowrap font-display text-lg font-semibold text-brand-olive">
+            {formatCAD(dish.price_cad)}
+          </span>
+
+          <a
+            href={buildWhatsappOrderUrl(title)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={soldOut}
+            className={`inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white transition-transform ${
+              soldOut
+                ? "pointer-events-none bg-gray-300"
+                : "bg-brand-orange hover:scale-[1.03]"
+            }`}
+          >
+            <MessageCircle className="h-4 w-4" />
+            {t.menu.orderButton}
+          </a>
+        </div>
       </div>
     </div>
   );

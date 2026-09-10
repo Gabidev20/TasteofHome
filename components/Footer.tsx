@@ -7,49 +7,88 @@ import { Instagram, MapPin, MessageCircle } from "lucide-react";
 export function Footer() {
   const { t } = useLanguage();
 
-  return (
-    <footer className="border-t border-brand-cream bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-center">
-        <span className="font-display text-xl font-bold text-brand-olive">
-          Taste of Home
-        </span>
-        <p className="flex items-center gap-1.5 text-sm text-brand-terracotta/70">
-          <MapPin className="h-4 w-4" />
-          {t.footer.location}
-        </p>
+  const navLinks = [
+    { href: "#sobre", label: t.nav.about },
+    { href: "#menu", label: t.nav.menu },
+    { href: "#como-funciona", label: t.nav.howItWorks },
+    { href: "#depoimentos", label: t.nav.testimonials },
+    { href: "#localizacao", label: t.nav.location },
+  ];
 
-        <div className="flex items-center gap-4">
-          <a
-            href={siteConfig.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-brand-terracotta/70 transition-colors hover:text-brand-orange"
-            aria-label="Instagram"
-          >
-            <Instagram className="h-5 w-5" />
-          </a>
-          <a
-            href={`https://wa.me/${siteConfig.whatsappNumber}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-brand-terracotta/70 transition-colors hover:text-brand-orange"
-            aria-label="WhatsApp"
-          >
-            <MessageCircle className="h-5 w-5" />
-          </a>
-          <a
-            href={siteConfig.googleMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-brand-terracotta/70 transition-colors hover:text-brand-orange"
-            aria-label="Location"
-          >
-            <MapPin className="h-5 w-5" />
-          </a>
+  return (
+    <footer className="bg-brand-terracotta text-white">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-16 sm:grid-cols-3">
+        <div>
+          <span className="font-display text-xl font-bold text-white">Taste of Home</span>
+          <p className="mt-3 max-w-xs text-sm text-white/70">{t.footer.blurb}</p>
         </div>
 
-        <p className="text-xs text-brand-terracotta/50">
-          © {new Date().getFullYear()} Taste of Home. {t.footer.rights}
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-cream/70">
+            {t.footer.navHeading}
+          </h3>
+          <ul className="mt-4 space-y-2.5">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className="text-sm text-white/80 hover:text-white">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-cream/70">
+            {t.footer.contactHeading}
+          </h3>
+          <ul className="mt-4 space-y-4">
+            <li>
+              <a
+                href={`https://wa.me/${siteConfig.whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2.5 text-white/90 hover:text-white"
+              >
+                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" />
+                <span>
+                  <span className="block text-sm font-semibold">{t.footer.whatsappLabel}</span>
+                  <span className="text-sm text-white/70">{siteConfig.whatsappDisplay}</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2.5 text-white/90 hover:text-white"
+              >
+                <Instagram className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" />
+                <span>
+                  <span className="block text-sm font-semibold">{t.footer.instagramLabel}</span>
+                  <span className="text-sm text-white/70">@{siteConfig.instagramHandle}</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={siteConfig.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2.5 text-white/90 hover:text-white"
+              >
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" />
+                <span className="text-sm text-white/70">{t.footer.location}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-center text-xs text-white/60">
+          © {new Date().getFullYear()} Taste of Home — Sabor de Casa · {t.footer.location} · {t.footer.rights}
         </p>
       </div>
     </footer>
