@@ -1,8 +1,0 @@
-feat: anima foto do hero com padrao de marca e efeito flutuante
-
-- fundo com o padrao 'Taste' (usado nos posts) atras do card da foto
-- blobs de cor animados para dar profundidade
-- foto com flutuacao suave e leve tilt no hover
-- entrada em fade-in-up no texto do hero
-
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

@@ -27,11 +27,6 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-14px)" },
         },
-        blob: {
-          "0%, 100%": { transform: "scale(1) translate(0, 0)" },
-          "33%": { transform: "scale(1.15) translate(12px, -16px)" },
-          "66%": { transform: "scale(0.9) translate(-10px, 10px)" },
-        },
         "fade-in-up": {
           "0%": { opacity: "0", transform: "translateY(28px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
@@ -39,7 +34,6 @@ const config: Config = {
       },
       animation: {
         float: "float 6s ease-in-out infinite",
-        blob: "blob 12s ease-in-out infinite",
         "fade-in-up": "fade-in-up 0.9s cubic-bezier(0.16,1,0.3,1) both",
       },
     },

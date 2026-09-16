@@ -51,27 +51,18 @@ export function Hero() {
         </div>
 
         <div className="relative mx-auto aspect-[4/5] w-full max-w-sm md:max-w-md">
-          {/* Branded watermark pattern, peeking out behind the photo card */}
-          <Image
-            src="/images/pattern-taste.png"
-            alt=""
-            aria-hidden
-            width={520}
-            height={925}
-            className="pointer-events-none absolute -right-8 -top-8 h-[110%] w-[110%] rotate-6 object-cover opacity-70 mix-blend-multiply"
-          />
-
-          {/* Soft animated color blobs for depth */}
+          {/* Solid backdrop card, offset behind the photo — a clean stacked-card
+              effect instead of a busy pattern/blob background. */}
           <div
             aria-hidden
-            className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-brand-orange/30 blur-3xl motion-safe:animate-blob"
+            className="absolute inset-0 -rotate-3 rounded-[2rem] bg-brand-olive/15"
           />
           <div
             aria-hidden
-            className="absolute -bottom-8 -right-6 h-40 w-40 rounded-full bg-brand-olive/30 blur-3xl motion-safe:animate-blob [animation-delay:3s]"
+            className="absolute inset-0 rotate-2 rounded-[2rem] bg-brand-orange/10"
           />
 
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-soft transition-transform duration-500 motion-safe:animate-float hover:scale-[1.02]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-soft motion-safe:animate-float">
             <Image
               src="/images/klarissa-robson.png"
               alt={`Klarissa e Robson — ${siteConfig.name}`}
