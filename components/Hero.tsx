@@ -11,7 +11,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-brand-cream">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
-        <div>
+        <div className="motion-safe:animate-fade-in-up">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-olive shadow-sm">
             <MapPin className="h-3.5 w-3.5" />
             {t.hero.badge}
@@ -50,17 +50,39 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[2rem] shadow-soft md:max-w-md">
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-sm md:max-w-md">
+          {/* Branded watermark pattern, peeking out behind the photo card */}
           <Image
-            src="/images/klarissa-robson.png"
-            alt={`Klarissa e Robson — ${siteConfig.name}`}
-            fill
-            priority
-            className="object-cover"
-            sizes="(min-width: 768px) 400px, 100vw"
+            src="/images/pattern-taste.png"
+            alt=""
+            aria-hidden
+            width={520}
+            height={925}
+            className="pointer-events-none absolute -right-8 -top-8 h-[110%] w-[110%] rotate-6 object-cover opacity-70 mix-blend-multiply"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-5 pb-4 pt-10">
-            <p className="font-display text-lg italic text-white">{t.hero.photoCaption}</p>
+
+          {/* Soft animated color blobs for depth */}
+          <div
+            aria-hidden
+            className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-brand-orange/30 blur-3xl motion-safe:animate-blob"
+          />
+          <div
+            aria-hidden
+            className="absolute -bottom-8 -right-6 h-40 w-40 rounded-full bg-brand-olive/30 blur-3xl motion-safe:animate-blob [animation-delay:3s]"
+          />
+
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-soft transition-transform duration-500 motion-safe:animate-float hover:scale-[1.02]">
+            <Image
+              src="/images/klarissa-robson.png"
+              alt={`Klarissa e Robson — ${siteConfig.name}`}
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 768px) 400px, 100vw"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-5 pb-4 pt-10">
+              <p className="font-display text-lg italic text-white">{t.hero.photoCaption}</p>
+            </div>
           </div>
         </div>
       </div>
