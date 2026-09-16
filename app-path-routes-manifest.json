@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/dishes/[id]/page": "/admin/dishes/[id]",
+  "/admin/dishes/new/page": "/admin/dishes/new",
+  "/admin/page": "/admin",
+  "/icon.png/route": "/icon.png",
+  "/login/page": "/login",
+  "/page": "/"
+}
