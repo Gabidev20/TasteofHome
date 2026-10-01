@@ -56,6 +56,23 @@ confira nessa ordem:
 3. Em **Deployments → (deploy com erro) → Functions/Logs**, o log da
    função mostra o erro real (o navegador só mostra a mensagem genérica).
 
+## 4. Evitar o Supabase pausar por inatividade
+
+Projetos gratuitos do Supabase pausam automaticamente após 7 dias sem uso.
+Este projeto já inclui um Cron Job da Vercel ([`vercel.json`](vercel.json))
+que acessa `/api/keep-alive` todo dia às 9h (UTC) — isso registra atividade
+no Supabase e evita a pausa. Ele é ativado automaticamente ao fazer deploy
+na Vercel, sem configuração extra.
+
+Opcional: para impedir que outras pessoas consigam chamar esse endpoint,
+adicione uma variável `CRON_SECRET` (qualquer string aleatória) nas
+variáveis de ambiente da Vercel — a Vercel já envia esse valor sozinha nas
+chamadas do Cron Job.
+
+Se o projeto já pausou: entre em supabase.com/dashboard, abra o projeto
+(aparece com o selo "Paused") e clique em **"Restore project"**. Os dados
+não são perdidos, só o banco fica offline até ser restaurado.
+
 ## Estrutura
 
 ```
