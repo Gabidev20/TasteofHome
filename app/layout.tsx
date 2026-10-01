@@ -20,7 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Taste of Home | Sabor de Casa — Richmond, BC",
+  title: "Taste of Home | Cardápio",
   description:
     "Comida caseira brasileira artesanal em Richmond, BC. Authentic Brazilian home cooking, made fresh by the Maciel family.",
 };

@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { AdminNav } from "@/components/admin/AdminNav";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Taste of Home | Admin",
+};
 
 export default function AdminLayout({
   children,
