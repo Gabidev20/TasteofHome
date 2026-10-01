@@ -77,25 +77,60 @@ create policy "categories_public_read"
   to anon, authenticated
   using (true);
 
-drop policy if exists "categories_admin_write" on public.categories;
-create policy "categories_admin_write"
-  on public.categories for all
-  to authenticated
-  using (true)
-  with check (true);
-
 drop policy if exists "dishes_public_read" on public.dishes;
 create policy "dishes_public_read"
   on public.dishes for select
   to anon, authenticated
   using (true);
 
+-- ============================================================
+-- 3b. ADMIN ALLOW-LIST
+-- The site now has a self-service "Criar conta" form, so anyone could
+-- sign up. Being logged in is no longer enough to edit the menu — the
+-- account's email must also be in this list. The table itself has RLS
+-- enabled with NO policies (nobody can read/write it over the API);
+-- it's only readable through the SECURITY DEFINER function below,
+-- which the write policies call to check the current user's email.
+-- ============================================================
+create table if not exists public.admin_emails (
+  email text primary key
+);
+
+alter table public.admin_emails enable row level security;
+
+insert into public.admin_emails (email) values
+  ('fabiagabriela13@gmail.com'),
+  ('tasteofhomebr@gmail.com')
+on conflict (email) do nothing;
+
+create or replace function public.is_admin_email(check_email text)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.admin_emails
+    where email = lower(check_email)
+  );
+$$;
+
+grant execute on function public.is_admin_email(text) to authenticated;
+
+drop policy if exists "categories_admin_write" on public.categories;
+create policy "categories_admin_write"
+  on public.categories for all
+  to authenticated
+  using (public.is_admin_email(auth.jwt() ->> 'email'))
+  with check (public.is_admin_email(auth.jwt() ->> 'email'));
+
 drop policy if exists "dishes_admin_write" on public.dishes;
 create policy "dishes_admin_write"
   on public.dishes for all
   to authenticated
-  using (true)
-  with check (true);
+  using (public.is_admin_email(auth.jwt() ->> 'email'))
+  with check (public.is_admin_email(auth.jwt() ->> 'email'));
 
 -- ============================================================
 -- 4. STORAGE (dish photos)
@@ -115,19 +150,19 @@ drop policy if exists "dishes_bucket_admin_write" on storage.objects;
 create policy "dishes_bucket_admin_write"
   on storage.objects for insert
   to authenticated
-  with check (bucket_id = 'dishes');
+  with check (bucket_id = 'dishes' and public.is_admin_email(auth.jwt() ->> 'email'));
 
 drop policy if exists "dishes_bucket_admin_update" on storage.objects;
 create policy "dishes_bucket_admin_update"
   on storage.objects for update
   to authenticated
-  using (bucket_id = 'dishes');
+  using (bucket_id = 'dishes' and public.is_admin_email(auth.jwt() ->> 'email'));
 
 drop policy if exists "dishes_bucket_admin_delete" on storage.objects;
 create policy "dishes_bucket_admin_delete"
   on storage.objects for delete
   to authenticated
-  using (bucket_id = 'dishes');
+  using (bucket_id = 'dishes' and public.is_admin_email(auth.jwt() ->> 'email'));
 
 -- ============================================================
 -- 5. SEED — real starting menu. Klarissa can edit prices/photos/

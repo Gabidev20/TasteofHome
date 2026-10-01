@@ -37,17 +37,32 @@ export async function updateSession(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    let isAdmin = false;
+    if (user?.email) {
+      const { data } = await supabase.rpc("is_admin_email", {
+        check_email: user.email,
+      });
+      isAdmin = Boolean(data);
+    }
+
     if (request.nextUrl.pathname.startsWith("/admin")) {
       if (!user) {
         const url = request.nextUrl.clone();
         url.pathname = "/login";
         return NextResponse.redirect(url);
       }
+      if (!isAdmin) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/login";
+        url.search = "?error=not_admin";
+        return NextResponse.redirect(url);
+      }
     }
 
-    if (request.nextUrl.pathname === "/login" && user) {
+    if (request.nextUrl.pathname === "/login" && user && isAdmin) {
       const url = request.nextUrl.clone();
       url.pathname = "/admin";
+      url.search = "";
       return NextResponse.redirect(url);
     }
 

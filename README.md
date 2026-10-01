@@ -7,10 +7,13 @@ Next.js 14 (App Router) + TypeScript + Tailwind CSS + Supabase.
 
 1. Crie um projeto em https://supabase.com.
 2. Abra **SQL Editor** → **New query**, cole o conteúdo de [`sql/schema.sql`](sql/schema.sql) e rode.
-   Isso cria as tabelas `categories` e `dishes`, as policies de RLS, o bucket de storage
-   `dishes` e um prato de exemplo (Feijoada).
-3. Em **Authentication → Users**, crie um usuário para a Klarissa (e-mail + senha) —
-   é o login que ela vai usar em `/admin`.
+   Isso cria as tabelas `categories`, `dishes` e `admin_emails`, as policies de RLS,
+   o bucket de storage `dishes` e um prato de exemplo (Feijoada).
+3. O `/login` tem uma aba **"Criar conta"** — qualquer pessoa pode criar uma conta,
+   mas só quem estiver na lista `admin_emails` consegue de fato editar o cardápio
+   (RLS bloqueia o resto). Essa lista já vem com os e-mails da Fábia e da Klarissa
+   semeados no `schema.sql` — para adicionar/remover alguém, edite a tabela
+   `admin_emails` direto no **Table Editor** do Supabase.
 4. Em **Project Settings → API**, copie a `Project URL` e a `anon public key`.
 
 ## 2. Configurar o projeto
